@@ -12,7 +12,7 @@ setup(
     requires=['sentry'],
     entry_points={
         'sentry.apps': [
-            'pluginname = sentry_log'
+            'sentry_log = sentry_log'
         ]
     },
     include_package_data=True,
