@@ -29,7 +29,7 @@ class Log(Interface):
         self.entries = entries
 
         for (i, item) in enumerate(self.entries):
-            self.entries[i]["date"] = datetime.datetime.fromtimestamp(item["date"])
+            self.entries[i]["date"] = datetime.datetime.fromtimestamp(item["date"] / 1000)
 
     def get_api_context(self):
         return {
