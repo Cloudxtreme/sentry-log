@@ -13,7 +13,10 @@ setup(
     entry_points={
         'sentry.apps': [
             'sentry_log = sentry_log'
-        ]
+        ],
+        'sentry.plugins': [
+            'sentry_log = sentry_log.plugin:LogPlugin'
+        ],
     },
     include_package_data=True,
     zip_safe=False,
