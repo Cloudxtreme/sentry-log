@@ -5,7 +5,7 @@ __all__ = ('Log',)
 from django.utils.translation import ugettext as _
 from sentry.interfaces.base import Interface
 from sentry.web.helpers import render_to_string
-import itertools
+import itertools, datetime
 
 class Log(Interface):
     @classmethod
@@ -26,6 +26,13 @@ class Log(Interface):
         self.commit_id = commit_id
         self.version = version
         self.assets = assets
+
+        try:
+            for (i, item) in enumerate(self.entries):
+                self.entries[i].date = datetime.datetime.fromtimestamp(item.date)
+        except:
+            pass
+
         self.entries = entries
 
     def get_api_context(self):
