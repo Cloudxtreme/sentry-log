@@ -64,11 +64,9 @@
             <h3>{{ entry.type }}: {{ entry.message }} <small style="display: block; float: right;">on {{ entry.date }}</small>
 
             <h4>Objects</h4>
-            <p>
-                <div class="objects{{ forloop.counter0 }}">
-                    {% render_values entry.objects %}
-                </div>
-            </p>
+            <div class="objects{{ forloop.counter0 }}">
+                {% render_values entry.objects %}
+            </div>
 
             <h4>Stacktrace</h4>
             <ul class="traceback">
