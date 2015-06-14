@@ -27,11 +27,8 @@ class Log(Interface):
         self.version = version
         self.assets = assets
 
-        try:
-            for (i, item) in enumerate(self.entries):
-                self.entries[i].date = datetime.datetime.fromtimestamp(item.date)
-        except:
-            pass
+        for (i, item) in enumerate(self.entries):
+            self.entries[i].date = datetime.datetime.fromtimestamp(item.date)
 
         self.entries = entries
 
