@@ -85,25 +85,23 @@
                                         {{ frame.abs_path }}
                                     </dd>
                                     <dt>{% trans "Line number" %}</dt>
-                                    <dd>{{ frame.lineno|default_if_none:"n/a" }}</dd>
+                                    <dd>{{ frame.line_no|default_if_none:"n/a" }}</dd>
                                     <dt>{% trans "Column number" %}</dt>
-                                    <dd>{{ frame.colno|default_if_none:"n/a" }}</dd>
+                                    <dd>{{ frame.col_no|default_if_none:"n/a" }}</dd>
                                     <dt>{% trans "Name" %}</dt>
                                     <dd>{{ frame.name|default_if_none:"n/a" }}</dd>
                                 </dl>">?</a>
                             {% if frame.name %}
                                  in <code>{{ frame.name }}</code>
                             {% endif %}
-                            {% if not frame.context and not frame.lineno|is_none %}
-                                 at line <code>{{ frame.lineno }}{% if not frame.colno|is_none %}:{{ frame.colno }}{% endif %}</code>
-                            {% endif %}
+                            at line <code>{{ frame.line_no }}:{{ frame.col_no }}</code>
                             {% if frame.in_app %}
                                 <span class="tag-app">(application)</span>
                             {% endif %}
                         </p>
 
                         {% if frame.context %}
-                            <ol start="{{ frame.start_lineno }}" class="context">
+                            <ol start="{{ frame.start_line_no }}" class="context">
                             {% for line in frame.context_pre %}
                                 <li>{{ line }}</li>
                             {% endfor %}
