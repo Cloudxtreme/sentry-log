@@ -32,12 +32,12 @@
         <hr>
 
         {% for entry in entries %}
-        <div class="traceback">
+        <div class="traceback" style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #ddd;">
             <h3>
-                <a href="javascript:void(0)" onclick="$('.log-entry-{{ forloop.counter0 }}').toggleClass('expanded')" title="{% trans "Toggle context" %}" rel="tooltip" class="tip"><i class="icon-info-sign"></i></a>
-
-                {{ entry.type }}: {{ entry.message }}
-                <small style="display: block; float: right;">on {{ entry.date|date }}</small>
+                <a href="javascript:void(0)" onclick="$('.log-entry-{{ forloop.counter0 }}').toggleClass('expanded')" title="{% trans "Toggle context" %}" rel="tooltip" class="tip">
+                    {{ entry.type }}: {{ entry.message }}
+                    <small style="display: block; float: right;">on {{ entry.date|date }}</small>
+                </a>
             </h3>
 
             <div class="log-entry-{{ forloop.counter0 }}"><div class="expandable">
