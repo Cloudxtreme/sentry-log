@@ -12,6 +12,8 @@ class Log(Interface):
     )
 
     def __init__(self, commit_id=None, version=None, assets=None, entries=None, **kwargs):
+        super(Log, self).__init__()
+
         self.commit_id = commit_id
         self.version = version
         self.assets = assets
