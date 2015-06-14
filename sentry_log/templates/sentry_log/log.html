@@ -1,0 +1,124 @@
+{% load i18n %}
+{% load sentry_helpers %}
+
+<div id="request" class="module">
+    <div class="page-header">
+        <h2>{% trans "Call ID Stack" %}</h2>
+    </div>
+    <div class="module-content">
+        <table class="table table-striped vars">
+            <tbody>
+                {% for call_id in call_id_stack reversed %}
+                    <tr>
+                        <td class="values">
+                            {% if forloop.first %}<strong>{% endif %}
+                            <code>{{ call_id }}</code>
+                            {% if forloop.first %}</strong>{% endif %}
+                            {% if not forloop.last %}called by...{% endif %}
+                        </td>
+                        <td>
+                            <a href="../../?call_id={{ call_id|urlencode }}">Events for call</a>
+                        </td>
+                        <td>
+                            <a href="../../?parent_call_id={{ call_id|urlencode }}">Events from children</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="module">
+    <div class="page-header">
+        <h2>
+            {% trans "Lavatrace log" %}
+        </h2>
+    </div>
+    <div class="module-content">
+        <table class="table table-striped">
+            <tr>
+                <td style="width: 100px;">Commit ID</td>
+                <td>{{ commit_id }}</td>
+            </tr>
+            <tr>
+                <td>Version</td>
+                <td>{{ version }}</td>
+            </tr>
+            <tr>
+                <td>Assets</td>
+                <td>
+                    <ol>
+                        {% for asset in assets %}
+                            <li>{{ asset }}</li>
+                        {% endfor %}
+                    </ol>
+                </td>
+            </tr>
+        </table>
+
+        <hr>
+
+        {% for entry in entries %}
+        <div class="traceback">
+            <h3>{{ entry.type }}: {{ entry.message }} <small style="display: block; float: right;">on {{ entry.date | date: "c" }}</small>
+
+            <h4>Objects</h4>
+            <p>
+                <div class="objects{{ forloop.counter0 }}">
+                    {% render_values entry.objects %}
+                </div>
+            </p>
+
+            <h4>Stacktrace</h4>
+            <ul class="traceback">
+                {% with stack_id=forloop.counter0 %}{% for frame in entry.frames %}
+                    <li class="frame{% if not frame.in_app %} system-frame{% endif %} frame-{{ stack_id }}-{{ forloop.counter0 }}">
+                        <p>
+                            <code>{{ frame.filename }}</code>
+                            <a class="annotation trigger-popover"
+                                data-placement="right"
+                                data-title="{% trans "Original location" %}"
+                                data-content="<dl>
+                                    <dt>{% trans "Filename" %}</dt>
+                                    <dd>
+                                        {{ frame.abs_path }}
+                                    </dd>
+                                    <dt>{% trans "Line number" %}</dt>
+                                    <dd>{{ frame.lineno|default_if_none:"n/a" }}</dd>
+                                    <dt>{% trans "Column number" %}</dt>
+                                    <dd>{{ frame.colno|default_if_none:"n/a" }}</dd>
+                                    <dt>{% trans "Name" %}</dt>
+                                    <dd>{{ frame.name|default_if_none:"n/a" }}</dd>
+                                </dl>">?</a>
+                            {% if frame.name %}
+                                 in <code>{{ frame.name }}</code>
+                            {% endif %}
+                            {% if not frame.context and not frame.lineno|is_none %}
+                                 at line <code>{{ frame.lineno }}{% if not frame.colno|is_none %}:{{ frame.colno }}{% endif %}</code>
+                            {% endif %}
+                            {% if frame.in_app %}
+                                <span class="tag-app">(application)</span>
+                            {% endif %}
+                        </p>
+
+                        {% if frame.context %}
+                            <ol start="{{ frame.start_lineno }}" class="context">
+                            {% for line in frame.context_pre %}
+                                <li>{{ line }}</li>
+                            {% endfor %}
+                            {% if frame.context_line %}
+                                <li class="active">{{ line }}</li>
+                            {% endif %}
+                            {% for line in frame.context_post %}
+                                <li>{{ line }}</li>
+                            {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </li>
+                {% endfor %}{% endwith %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</div>
