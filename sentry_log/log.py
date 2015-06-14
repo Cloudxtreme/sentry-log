@@ -1,5 +1,5 @@
 from django.utils.translation import ugettext as _
-from sentry.interfaces import Interface
+from sentry.interfaces.base import Interface
 from sentry.web.helpers import render_to_string
 import itertools
 
