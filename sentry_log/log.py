@@ -25,9 +25,6 @@ class Log(Interface):
             'entries':   self.entries,
         }
 
-    def get_hash(self):
-        return []
-
     def get_search_context(self, event):
         return {
             'text': [self.commit_id, self.version, self.assets, self.entries] +
@@ -46,9 +43,6 @@ class Log(Interface):
             'assets':    self.assets,
             'entries':   self.entries,
         })
-
-    def get_slug(self):
-        return 'log'
 
     def get_title(self):
         return _('Lavatrace log')
