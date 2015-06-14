@@ -40,7 +40,7 @@
                 <small style="display: block; float: right;">on {{ entry.date|date }}</small>
             </h3>
 
-            <div class="log-entry-{{ forloop.counter0 }} expandable">
+            <div class="log-entry-{{ forloop.counter0 }}"><div class="expandable">
                 <h4>Objects</h4>
                 <div class="objects{{ forloop.counter0 }}">
                     {% render_values entry.objects %}
@@ -94,7 +94,7 @@
                 </ul>
 
                 <hr>
-            </div>
+            </div></div>
         </div>
         {% endfor %}
     </div>
