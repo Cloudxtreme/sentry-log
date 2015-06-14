@@ -26,11 +26,10 @@ class Log(Interface):
         self.commit_id = commit_id
         self.version = version
         self.assets = assets
+        self.entries = entries
 
         for (i, item) in enumerate(self.entries):
             self.entries[i].date = datetime.datetime.fromtimestamp(item.date)
-
-        self.entries = entries
 
     def get_api_context(self):
         return {
